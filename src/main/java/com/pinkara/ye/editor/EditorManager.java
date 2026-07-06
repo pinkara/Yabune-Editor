@@ -29,7 +29,7 @@ public class EditorManager {
     }
 
     public void remove(Player player) {
-        this.editorMap.remove(player.getGameProfile().getName());
+        this.editorMap.remove(player.getGameProfile().name());
     }
 
     public void removeAll() {
@@ -47,7 +47,7 @@ public class EditorManager {
     }
 
     public Editor getEditor(Player par1) {
-        return this.getEditor(par1.getGameProfile().getName());
+        return this.getEditor(par1.getGameProfile().name());
     }
 
     public Editor getEditor(String par1) {

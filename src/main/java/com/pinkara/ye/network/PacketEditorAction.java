@@ -15,6 +15,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketEditorAction(byte action, int v0, int v1, int v2, int v3) implements CustomPacketPayload {
@@ -60,13 +61,13 @@ public record PacketEditorAction(byte action, int v0, int v1, int v2, int v3) im
                     EditFilterCopy filter = new EditFilterCopy();
                     filter.init(new Config());
                     filter.edit(editor);
-                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "Copied selection");
+                    NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "Copied selection");
                 }
                 case ACTION_PASTE -> {
                     EditFilterPaste filter = new EditFilterPaste();
                     filter.init(new Config());
                     filter.edit(editor);
-                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "Pasted selection");
+                    NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "Pasted selection");
                 }
                 case ACTION_UNDO -> editor.undo();
                 case ACTION_CLEAR -> entity.remove(net.minecraft.world.entity.Entity.RemovalReason.DISCARDED);
@@ -75,7 +76,7 @@ public record PacketEditorAction(byte action, int v0, int v1, int v2, int v3) im
                         entity.setCloneBox(message.v0(), message.v1(), message.v2(), message.v3());
                     }
                     editor.editBlocks(Editor.EditType_Clone, 0.0f);
-                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "Cloned selection");
+                    NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "Cloned selection");
                 }
                 case ACTION_SET_CLONE_BOX -> entity.setCloneBox(message.v0(), message.v1(), message.v2(), message.v3());
                 case ACTION_FILL -> editor.editBlocks(Editor.EditType_Replace, 0.0f);

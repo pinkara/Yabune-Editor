@@ -50,25 +50,25 @@ public class BlockSet implements Comparable<BlockSet> {
     }
 
     public static BlockSet readFromNBT(CompoundTag nbt) {
-        Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(nbt.getString("Block")));
+        Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(nbt.getString("Block").orElse(""))).map(ref -> ref.value()).orElse(null);
         if (block == null) {
             return AIR;
         }
         BlockState state = block.defaultBlockState();
-        if (nbt.contains("Properties", 10)) {
-            CompoundTag props = nbt.getCompound("Properties");
-            for (String key : props.getAllKeys()) {
+        if (nbt.contains("Properties")) {
+            CompoundTag props = nbt.getCompound("Properties").orElse(new CompoundTag());
+            for (String key : props.keySet()) {
                 Property<?> property = state.getBlock().getStateDefinition().getProperty(key);
                 if (property != null) {
-                    state = setValue(state, property, props.getString(key));
+                    state = setValue(state, property, props.getString(key).orElse(""));
                 }
             }
         } else if (nbt.contains("Meta")) {
             // Legacy fallback for old metadata based saves
-            int meta = nbt.getInt("Meta");
+            int meta = nbt.getInt("Meta").orElse(0);
             state = getStateFromLegacyMeta(block, meta);
         }
-        CompoundTag tagData = nbt.contains("TagData", 10) ? nbt.getCompound("TagData") : null;
+        CompoundTag tagData = nbt.contains("TagData") ? nbt.getCompound("TagData").orElse(null) : null;
         return new BlockSet(state, tagData);
     }
 

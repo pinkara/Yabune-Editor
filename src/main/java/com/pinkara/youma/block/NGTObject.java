@@ -117,41 +117,41 @@ public class NGTObject {
         }
         Map<Integer, BlockSet> idMap = new HashMap<>();
         idMap.put(0, BlockSet.AIR);
-        ListTag tagList2 = data.getList("IdList", 10);
+        ListTag tagList2 = data.getList("IdList").orElse(new ListTag());
         for (int i = 0; i < tagList2.size(); ++i) {
-            CompoundTag tag = tagList2.getCompound(i);
-            BlockSet set = BlockSet.readFromNBT(tag.getCompound("Set"));
-            int id = tag.getInt("Id");
+            CompoundTag tag = tagList2.getCompoundOrEmpty(i);
+            BlockSet set = BlockSet.readFromNBT(tag.getCompound("Set").orElse(new CompoundTag()));
+            int id = tag.getInt("Id").orElse(0);
             idMap.put(id, set);
         }
         List<BlockSet> list = new ArrayList<>();
         int[] ids;
         if (data.contains("IData")) {
-            ids = data.getIntArray("IData");
+            ids = data.getIntArray("IData").orElse(new int[0]);
         } else {
-            byte[] bytes = data.getByteArray("BData");
+            byte[] bytes = data.getByteArray("BData").orElse(new byte[0]);
             ids = new int[bytes.length];
             for (int i = 0; i < bytes.length; ++i) {
                 ids[i] = bytes[i] + 128;
             }
         }
-        CompoundTag nbts = data.getCompound("NBTs");
+        CompoundTag nbts = data.getCompound("NBTs").orElse(new CompoundTag());
         for (int i = 0; i < ids.length; ++i) {
             int id = ids[i];
             BlockSet set = idMap.getOrDefault(id, BlockSet.AIR);
             if (nbts.contains(String.valueOf(i))) {
-                list.add(set.setNBT(nbts.getCompound(String.valueOf(i))));
+                list.add(set.setNBT(nbts.getCompound(String.valueOf(i)).orElse(new CompoundTag())));
             } else {
                 list.add(set);
             }
         }
-        int x = data.getInt("SizeX");
-        int y = data.getInt("SizeY");
-        int z = data.getInt("SizeZ");
-        int ox = data.getInt("OrigX");
-        int oy = data.getInt("OrigY");
-        int oz = data.getInt("OrigZ");
-        long objId = data.getLong("ObjId");
+        int x = data.getInt("SizeX").orElse(0);
+        int y = data.getInt("SizeY").orElse(0);
+        int z = data.getInt("SizeZ").orElse(0);
+        int ox = data.getInt("OrigX").orElse(0);
+        int oy = data.getInt("OrigY").orElse(0);
+        int oz = data.getInt("OrigZ").orElse(0);
+        long objId = data.getLong("ObjId").orElse(0L);
         return createYPO(objId, list, x, y, z, ox, oy, oz);
     }
 
@@ -166,7 +166,7 @@ public class NGTObject {
     }
 
     private static CompoundTag decompress(CompoundTag data) {
-        byte[] compressedData = data.getByteArray("ByteData");
+        byte[] compressedData = data.getByteArray("ByteData").orElse(new byte[0]);
         CompoundTag decData = NBTUtil.decompress(compressedData);
         return decData != null ? decData : data;
     }

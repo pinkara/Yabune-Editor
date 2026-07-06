@@ -6,6 +6,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
+import net.minecraft.client.Minecraft;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -16,7 +17,10 @@ public class YENetwork {
     }
 
     public static void sendToServer(CustomPacketPayload payload) {
-        PacketDistributor.sendToServer(payload);
+        var connection = Minecraft.getInstance().getConnection();
+        if (connection != null) {
+            connection.send(payload);
+        }
     }
 
     public static void sendToPlayer(net.minecraft.server.level.ServerPlayer player, CustomPacketPayload payload) {
@@ -33,8 +37,12 @@ public class YENetwork {
         registrar.playToClient(PacketOpenEditorGui.TYPE, PacketOpenEditorGui.STREAM_CODEC, PacketOpenEditorGui::handle);
         registrar.playToServer(PacketSaveStructure.TYPE, PacketSaveStructure.STREAM_CODEC, PacketSaveStructure::handle);
         registrar.playToServer(PacketLoadStructure.TYPE, PacketLoadStructure.STREAM_CODEC, PacketLoadStructure::handle);
+        registrar.playToServer(PacketDeleteStructure.TYPE, PacketDeleteStructure.STREAM_CODEC, PacketDeleteStructure::handle);
+        registrar.playToServer(PacketRenameStructure.TYPE, PacketRenameStructure.STREAM_CODEC, PacketRenameStructure::handle);
         registrar.playToServer(PacketRequestStructureList.TYPE, PacketRequestStructureList.STREAM_CODEC, PacketRequestStructureList::handle);
         registrar.playToClient(PacketStructureList.TYPE, PacketStructureList.STREAM_CODEC, PacketStructureList::handle);
+        registrar.playToServer(PacketRequestStructureData.TYPE, PacketRequestStructureData.STREAM_CODEC, PacketRequestStructureData::handle);
+        registrar.playToClient(PacketStructureData.TYPE, PacketStructureData.STREAM_CODEC, PacketStructureData::handle);
         registrar.playToServer(PacketExportMesh.TYPE, PacketExportMesh.STREAM_CODEC, PacketExportMesh::handle);
     }
 }

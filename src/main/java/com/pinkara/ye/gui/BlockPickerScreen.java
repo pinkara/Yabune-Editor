@@ -2,6 +2,8 @@ package com.pinkara.ye.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -74,10 +76,9 @@ public class BlockPickerScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 8, 0xFFFFFF);
+        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 8, 0xFFFFFFFF);
 
         int rowsTotal = (this.filteredStacks.size() + COLUMNS - 1) / COLUMNS;
         int maxScroll = Math.max(0, rowsTotal - rowsVisible);
@@ -98,7 +99,7 @@ public class BlockPickerScreen extends Screen {
         // Tooltip
         ItemStack hovered = getHoveredStack(mouseX, mouseY);
         if (!hovered.isEmpty()) {
-            guiGraphics.renderTooltip(this.font, hovered, mouseX, mouseY);
+            guiGraphics.setTooltipForNextFrame(this.font, hovered, mouseX, mouseY);
         }
     }
 
@@ -126,11 +127,11 @@ public class BlockPickerScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (super.mouseClicked(mouseX, mouseY, button)) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean handled) {
+        if (super.mouseClicked(event, handled)) {
             return true;
         }
-        ItemStack hovered = getHoveredStack((int) mouseX, (int) mouseY);
+        ItemStack hovered = getHoveredStack((int) event.x(), (int) event.y());
         if (!hovered.isEmpty()) {
             this.onSelect.accept(hovered.copy());
             this.onClose();
@@ -151,12 +152,12 @@ public class BlockPickerScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+    public boolean keyPressed(KeyEvent event) {
+        if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
             this.onClose();
             return true;
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
 
     @Override

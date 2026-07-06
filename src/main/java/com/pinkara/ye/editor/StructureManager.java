@@ -8,12 +8,16 @@ import net.neoforged.fml.loading.FMLPaths;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import com.mojang.logging.LogUtils;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class StructureManager {
     public static final StructureManager INSTANCE = new StructureManager();
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     private final Path structuresDir;
 
@@ -32,6 +36,7 @@ public class StructureManager {
 
     public List<String> listStructures() {
         List<String> names = new ArrayList<>();
+        LOGGER.info("listStructures scanning {} (exists={} isDir={})", this.structuresDir, Files.exists(this.structuresDir), Files.isDirectory(this.structuresDir));
         if (!Files.isDirectory(this.structuresDir)) {
             return names;
         }
@@ -44,6 +49,7 @@ public class StructureManager {
             e.printStackTrace();
         }
         Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
+        LOGGER.info("listStructures found {} names: {}", names.size(), names);
         return names;
     }
 
@@ -58,7 +64,9 @@ public class StructureManager {
         try {
             Files.createDirectories(this.structuresDir);
             CompoundTag tag = ngto.writeToNBT(false); // uncompressed for reliability
-            NbtIo.write(tag, this.structuresDir.resolve(safeName + ".nbt"));
+            Path target = this.structuresDir.resolve(safeName + ".nbt");
+            NbtIo.write(tag, target);
+            LOGGER.info("Structure saved to {}", target);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,7 +108,7 @@ public class StructureManager {
         }
     }
 
-    private static String sanitizeName(String name) {
+    public static String sanitizeName(String name) {
         if (name == null) {
             return "";
         }

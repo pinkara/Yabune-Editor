@@ -11,7 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +33,7 @@ public class ItemEditor extends Item {
         Level world = context.getLevel();
         Player player = context.getPlayer();
         BlockPos pos = context.getClickedPos();
-        if (player == null || world.isClientSide) {
+        if (player == null || world.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
         if (EditorManager.INSTANCE.canPlayerUseEditor(player)) {
@@ -51,20 +51,22 @@ public class ItemEditor extends Item {
             } else {
                 EntityEditor entityEditor = Editor.getNewEditor(world, player, pos.getX(), pos.getY(), pos.getZ());
                 if (entityEditor != null) {
-                    entityEditor.moveTo(player.getX(), player.getY(), player.getZ(), 0.0f, 0.0f);
+                            entityEditor.setPos(player.getX(), player.getY(), player.getZ());
+                    entityEditor.setYRot(0.0f);
+                    entityEditor.setXRot(0.0f);
                     world.addFreshEntity(entityEditor);
                 }
             }
         } else {
-            player.sendSystemMessage(Component.translatable("You don't have permission to use Editor."));
+            ((ServerPlayer) player).sendSystemMessage(Component.translatable("You don't have permission to use Editor."));
         }
         return InteractionResult.SUCCESS;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        if (level.isClientSide) {
-            return InteractionResultHolder.success(player.getItemInHand(hand));
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
         }
         Editor editor = EditorManager.INSTANCE.getEditor(player);
         if (editor != null) {
@@ -75,7 +77,7 @@ public class ItemEditor extends Item {
                 editor.getEntity().setPos(dp, pos.getX(), pos.getY(), pos.getZ());
             }
         }
-        return InteractionResultHolder.success(player.getItemInHand(hand));
+        return InteractionResult.SUCCESS;
     }
 
     public static HitResult getTarget(Player player, boolean par2, boolean selectSide) {

@@ -3,43 +3,36 @@ package com.pinkara.ye.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.pinkara.ye.editor.EntityEditor;
+
 import com.pinkara.youma.block.BlockSet;
 import com.pinkara.youma.block.NGTObject;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 
-public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("ye", "textures/atc.png");
-
+public class EntityEditorRenderer extends EntityRenderer<EntityEditor, EntityEditorRenderer.EntityEditorRenderState> {
     private static final RenderType EDITOR_BOX_FILL = RenderType.create(
             "ye_editor_box_fill",
-            DefaultVertexFormat.POSITION_COLOR,
-            VertexFormat.Mode.QUADS,
-            256,
+            1536,
             false,
             true,
-            RenderType.CompositeState.builder()
-                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
-                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                    .setCullState(RenderStateShard.NO_CULL)
-                    .createCompositeState(false));
+            net.minecraft.client.renderer.RenderPipelines.DEBUG_QUADS,
+            RenderType.CompositeState.builder().createCompositeState(false)
+    );
 
     private final int[] hitBoxBuf = new int[6];
     private final int[] selectBoxBuf = new int[6];
@@ -49,29 +42,51 @@ public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
     }
 
     @Override
-    public void render(EntityEditor entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public EntityEditorRenderState createRenderState() {
+        return new EntityEditorRenderState();
+    }
+
+    @Override
+    public void extractRenderState(EntityEditor entity, EntityEditorRenderState state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.selectEnd = entity.isSelectEnd();
+        state.editMode = entity.getEditMode();
+        state.hasCloneBox = entity.hasCloneBox();
+        state.cloneBox = entity.getCloneBox();
+        state.blocksForRenderer = entity.blocksForRenderer;
+        state.x = Mth.lerp(partialTick, entity.xo, entity.getX());
+        state.y = Mth.lerp(partialTick, entity.yo, entity.getY());
+        state.z = Mth.lerp(partialTick, entity.zo, entity.getZ());
+
+        initSelectBox(entity, state);
+
+        HitResult target = entity.getTarget(true);
+        if (target instanceof BlockHitResult blockHit && target.getType() != HitResult.Type.MISS) {
+            state.targetPos = blockHit.getBlockPos();
+            state.targetValid = true;
+        } else {
+            state.targetValid = false;
+        }
+    }
+
+    @Override
+    public void submit(EntityEditorRenderState state, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
         poseStack.pushPose();
 
-        this.initSelectBox(entity);
+        int startX = state.hitBoxBuf[0];
+        int startY = state.hitBoxBuf[1];
+        int startZ = state.hitBoxBuf[2];
+        int endX = state.hitBoxBuf[3];
+        int endY = state.hitBoxBuf[4];
+        int endZ = state.hitBoxBuf[5];
+        int minX = state.selectBoxBuf[0];
+        int minY = state.selectBoxBuf[1];
+        int minZ = state.selectBoxBuf[2];
+        int maxX = state.selectBoxBuf[3];
+        int maxY = state.selectBoxBuf[4];
+        int maxZ = state.selectBoxBuf[5];
 
-        int startX = this.hitBoxBuf[0];
-        int startY = this.hitBoxBuf[1];
-        int startZ = this.hitBoxBuf[2];
-        int endX = this.hitBoxBuf[3];
-        int endY = this.hitBoxBuf[4];
-        int endZ = this.hitBoxBuf[5];
-        int minX = this.selectBoxBuf[0];
-        int minY = this.selectBoxBuf[1];
-        int minZ = this.selectBoxBuf[2];
-        int maxX = this.selectBoxBuf[3];
-        int maxY = this.selectBoxBuf[4];
-        int maxZ = this.selectBoxBuf[5];
-
-        double pX = Mth.lerp(partialTick, entity.xo, entity.getX());
-        double pY = Mth.lerp(partialTick, entity.yo, entity.getY());
-        double pZ = Mth.lerp(partialTick, entity.zo, entity.getZ());
-
-        poseStack.translate(minX - pX, minY - pY, minZ - pZ);
+        poseStack.translate(minX - state.x, minY - state.y, minZ - state.z);
 
         float difX = maxX - minX;
         float difY = maxY - minY;
@@ -79,41 +94,35 @@ public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
         float minPos = -0.05f;
 
         // Selection box fill (original dark green)
-        renderFilledBox(poseStack, buffer, minPos, minPos, minPos, 1.1f + difX, 1.1f + difY, 1.1f + difZ, 0x204020, 64);
+        renderFilledBox(poseStack, nodeCollector, minPos, minPos, minPos, 1.1f + difX, 1.1f + difY, 1.1f + difZ, 0x204020, 64);
         // Selection box frame (black)
-        renderFrame(poseStack, buffer, minPos, minPos, minPos, 1.1f + difX, 1.1f + difY, 1.1f + difZ, 0x000000, 255);
+        renderFrame(poseStack, nodeCollector, minPos, minPos, minPos, 1.1f + difX, 1.1f + difY, 1.1f + difZ, 0x000000, 255);
 
         // Start marker (red)
         float f1 = 0.06f;
         float size1 = 1.12f;
-        renderFilledBox(poseStack, buffer, (startX - minX) - f1, (startY - minY) - f1, (startZ - minZ) - f1, size1, size1, size1, 0xFF0000, 128);
-        renderFrame(poseStack, buffer, (startX - minX) - f1, (startY - minY) - f1, (startZ - minZ) - f1, size1, size1, size1, 0xFF0000, 255);
+        renderFilledBox(poseStack, nodeCollector, (startX - minX) - f1, (startY - minY) - f1, (startZ - minZ) - f1, size1, size1, size1, 0xFF0000, 128);
+        renderFrame(poseStack, nodeCollector, (startX - minX) - f1, (startY - minY) - f1, (startZ - minZ) - f1, size1, size1, size1, 0xFF0000, 255);
 
         // End marker (blue)
-        renderFilledBox(poseStack, buffer, (endX - minX) - f1, (endY - minY) - f1, (endZ - minZ) - f1, size1, size1, size1, 0x0000FF, 128);
-        renderFrame(poseStack, buffer, (endX - minX) - f1, (endY - minY) - f1, (endZ - minZ) - f1, size1, size1, size1, 0x0000FF, 255);
+        renderFilledBox(poseStack, nodeCollector, (endX - minX) - f1, (endY - minY) - f1, (endZ - minZ) - f1, size1, size1, size1, 0x0000FF, 128);
+        renderFrame(poseStack, nodeCollector, (endX - minX) - f1, (endY - minY) - f1, (endZ - minZ) - f1, size1, size1, size1, 0x0000FF, 255);
 
-        byte editMode = entity.getEditMode();
-        boolean cloneMode = entity.isSelectEnd() && editMode == 3;
+        boolean cloneMode = state.selectEnd && state.editMode == 3;
 
-        // Paste preview: show the copied structure at the targeted block in paste mode.
-        if (entity.blocksForRenderer != null && editMode == 2) {
-            HitResult target = entity.getTarget(true);
-            if (target instanceof BlockHitResult blockHit && target.getType() != HitResult.Type.MISS) {
-                BlockPos tgPos = blockHit.getBlockPos();
-                poseStack.pushPose();
-                poseStack.translate(tgPos.getX() - minX, tgPos.getY() - minY, tgPos.getZ() - minZ);
-                this.renderBlocks(entity, poseStack, buffer);
-                poseStack.popPose();
-            }
+        // Paste preview
+        if (state.blocksForRenderer != null && state.editMode == 2 && state.targetValid) {
+            poseStack.pushPose();
+            poseStack.translate(state.targetPos.getX() - minX, state.targetPos.getY() - minY, state.targetPos.getZ() - minZ);
+            renderGhostBlocks(state.blocksForRenderer, poseStack, nodeCollector);
+            poseStack.popPose();
         }
 
-        // Clone preview: show the copied structure inside each translucent yellow zone.
-        if (cloneMode && entity.hasCloneBox()) {
+        // Clone preview
+        if (cloneMode && state.hasCloneBox) {
             poseStack.pushPose();
-            int[] box = entity.getCloneBox();
-            Font font = this.getFont();
-            NGTObject clipboard = entity.blocksForRenderer;
+            int[] box = state.cloneBox;
+            NGTObject clipboard = state.blocksForRenderer;
             boolean renderBlocks = clipboard != null;
             float cx = (1.1f + difX) * 0.5f;
             float cz = (1.1f + difZ) * 0.5f;
@@ -121,19 +130,20 @@ public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
                 poseStack.pushPose();
                 poseStack.translate(box[0] * i, box[1] * i, box[2] * i);
                 if (renderBlocks) {
-                    renderGhostBlocks(clipboard, poseStack, buffer);
+                    renderGhostBlocks(clipboard, poseStack, nodeCollector);
                 }
-                renderFilledBox(poseStack, buffer, minPos, minPos, minPos, 1.1f + difX, 1.1f + difY, 1.1f + difZ, 0xFFAA00, 32);
-                renderFrame(poseStack, buffer, minPos, minPos, minPos, 1.1f + difX, 1.1f + difY, 1.1f + difZ, 0xFFFF00, 192);
+                renderFilledBox(poseStack, nodeCollector, minPos, minPos, minPos, 1.1f + difX, 1.1f + difY, 1.1f + difZ, 0xFFAA00, 32);
+                renderFrame(poseStack, nodeCollector, minPos, minPos, minPos, 1.1f + difX, 1.1f + difY, 1.1f + difZ, 0xFFFF00, 192);
 
-                if (font != null && i > 0) {
+                if (i > 0) {
                     poseStack.pushPose();
                     poseStack.translate(cx, 1.1f + difY + 0.3f, cz);
-                    poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+                    poseStack.mulPose(cameraRenderState.orientation);
                     poseStack.scale(-0.025F, -0.025F, 0.025F);
                     String label = "Clone " + i;
-                    font.drawInBatch(label, -font.width(label) / 2.0f, 0, 0xFFFF00, false,
-                            poseStack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
+                    Font font = this.getFont();
+                    FormattedCharSequence seq = FormattedCharSequence.forward(label, Style.EMPTY);
+                    nodeCollector.submitText(poseStack, font.width(seq) / -2.0f, 0, seq, false, Font.DisplayMode.NORMAL, LightTexture.FULL_BRIGHT, 0xFFFFFF00, 0, 0);
                     poseStack.popPose();
                 }
                 poseStack.popPose();
@@ -144,10 +154,10 @@ public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
         poseStack.popPose();
 
         // Floating text
-        this.renderText(entity, poseStack, buffer);
+        this.renderText(state, poseStack, nodeCollector, cameraRenderState);
     }
 
-    private void initSelectBox(EntityEditor editor) {
+    private void initSelectBox(EntityEditor editor, EntityEditorRenderState state) {
         for (int i = 0; i < 6; ++i) {
             this.hitBoxBuf[i] = 0;
             this.selectBoxBuf[i] = 0;
@@ -178,17 +188,12 @@ public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
                 this.selectBoxBuf[i + 3] = start[i];
             }
         }
+        System.arraycopy(this.hitBoxBuf, 0, state.hitBoxBuf, 0, 6);
+        System.arraycopy(this.selectBoxBuf, 0, state.selectBoxBuf, 0, 6);
     }
 
-    private void renderBlocks(EntityEditor editor, PoseStack poseStack, MultiBufferSource buffer) {
-        renderGhostBlocks(editor.blocksForRenderer, poseStack, buffer);
-        editor.setUpdate(false);
-    }
-
-    private void renderGhostBlocks(NGTObject ngto, PoseStack poseStack, MultiBufferSource buffer) {
+    private void renderGhostBlocks(NGTObject ngto, PoseStack poseStack, SubmitNodeCollector nodeCollector) {
         if (ngto == null) return;
-
-        BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
         for (int x = 0; x < ngto.xSize; ++x) {
             for (int y = 0; y < ngto.ySize; ++y) {
                 for (int z = 0; z < ngto.zSize; ++z) {
@@ -196,41 +201,48 @@ public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
                     if (set.state.isAir()) continue;
                     poseStack.pushPose();
                     poseStack.translate(x, y, z);
-                    dispatcher.renderSingleBlock(set.state, poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+                    nodeCollector.submitBlock(poseStack, set.state, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0);
                     poseStack.popPose();
                 }
             }
         }
     }
 
-    private void renderText(EntityEditor entity, PoseStack poseStack, MultiBufferSource buffer) {
+    private void renderText(EntityEditorRenderState state, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
         Font font = this.getFont();
         if (font == null) return;
 
         poseStack.pushPose();
         poseStack.translate(0.0, 2.0, 0.0);
-        poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+        poseStack.mulPose(cameraRenderState.orientation);
         poseStack.scale(-0.025F, -0.025F, 0.025F);
 
         Matrix4f matrix = poseStack.last().pose();
-        String start = String.format("Start : %d, %d, %d", this.hitBoxBuf[0], this.hitBoxBuf[1], this.hitBoxBuf[2]);
-        String end = String.format("End : %d, %d, %d", this.hitBoxBuf[3], this.hitBoxBuf[4], this.hitBoxBuf[5]);
+        String start = String.format("Start : %d, %d, %d", state.hitBoxBuf[0], state.hitBoxBuf[1], state.hitBoxBuf[2]);
+        String end = String.format("End : %d, %d, %d", state.hitBoxBuf[3], state.hitBoxBuf[4], state.hitBoxBuf[5]);
         String size = String.format("Size : %d, %d, %d",
-                Math.abs(this.hitBoxBuf[3] - this.hitBoxBuf[0]) + 1,
-                Math.abs(this.hitBoxBuf[4] - this.hitBoxBuf[1]) + 1,
-                Math.abs(this.hitBoxBuf[5] - this.hitBoxBuf[2]) + 1);
-        String mode = "Mode : " + getModeName(entity.getEditMode());
+                Math.abs(state.hitBoxBuf[3] - state.hitBoxBuf[0]) + 1,
+                Math.abs(state.hitBoxBuf[4] - state.hitBoxBuf[1]) + 1,
+                Math.abs(state.hitBoxBuf[5] - state.hitBoxBuf[2]) + 1);
+        String mode = "Mode : " + getModeName(state.editMode);
 
         int y = 0;
-        font.drawInBatch(start, -font.width(start) / 2.0f, y, 0xFF0000, false, matrix, buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
+        drawText(start, -font.width(start) / 2.0f, y, 0xFFFF0000, matrix, nodeCollector, font);
         y += 12;
-        font.drawInBatch(end, -font.width(end) / 2.0f, y, 0x0000FF, false, matrix, buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
+        drawText(end, -font.width(end) / 2.0f, y, 0xFF0000FF, matrix, nodeCollector, font);
         y += 12;
-        font.drawInBatch(size, -font.width(size) / 2.0f, y, 0x00FF00, false, matrix, buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
+        drawText(size, -font.width(size) / 2.0f, y, 0xFF00FF00, matrix, nodeCollector, font);
         y += 12;
-        font.drawInBatch(mode, -font.width(mode) / 2.0f, y, 0xFFFF00, false, matrix, buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
+        drawText(mode, -font.width(mode) / 2.0f, y, 0xFFFFFF00, matrix, nodeCollector, font);
 
         poseStack.popPose();
+    }
+
+    private static void drawText(String text, float x, int y, int color, Matrix4f matrix, SubmitNodeCollector nodeCollector, Font font) {
+        FormattedCharSequence seq = FormattedCharSequence.forward(text, Style.EMPTY);
+        PoseStack poseStack = new PoseStack();
+        poseStack.last().pose().set(matrix);
+        nodeCollector.submitText(poseStack, x, y, seq, false, Font.DisplayMode.NORMAL, LightTexture.FULL_BRIGHT, color, 0, 0);
     }
 
     private static String getModeName(byte mode) {
@@ -243,80 +255,82 @@ public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
         };
     }
 
-    private static void renderFilledBox(PoseStack poseStack, MultiBufferSource buffer,
+    private static void renderFilledBox(PoseStack poseStack, SubmitNodeCollector nodeCollector,
                                         float minX, float minY, float minZ,
                                         float width, float height, float depth,
                                         int color, int alpha) {
-        VertexConsumer builder = buffer.getBuffer(EDITOR_BOX_FILL);
-        Matrix4f matrix = poseStack.last().pose();
-        float maxX = minX + width;
-        float maxY = minY + height;
-        float maxZ = minZ + depth;
-        float r = ((color >> 16) & 0xFF) / 255.0f;
-        float g = ((color >> 8) & 0xFF) / 255.0f;
-        float b = (color & 0xFF) / 255.0f;
-        float a = alpha / 255.0f;
+        nodeCollector.submitCustomGeometry(poseStack, EDITOR_BOX_FILL, (pose, consumer) -> {
+            Matrix4f matrix = pose.pose();
+            float maxX = minX + width;
+            float maxY = minY + height;
+            float maxZ = minZ + depth;
+            float r = ((color >> 16) & 0xFF) / 255.0f;
+            float g = ((color >> 8) & 0xFF) / 255.0f;
+            float b = (color & 0xFF) / 255.0f;
+            float a = alpha / 255.0f;
 
-        // South
-        builder.addVertex(matrix, minX, minY, maxZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, minY, maxZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, maxY, maxZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, minX, maxY, maxZ).setColor(r, g, b, a);
-        // North
-        builder.addVertex(matrix, minX, maxY, minZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, maxY, minZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, minY, minZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, minX, minY, minZ).setColor(r, g, b, a);
-        // East
-        builder.addVertex(matrix, maxX, minY, maxZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, minY, minZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, maxY, minZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, maxY, maxZ).setColor(r, g, b, a);
-        // West
-        builder.addVertex(matrix, minX, minY, minZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, minX, minY, maxZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, minX, maxY, maxZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, minX, maxY, minZ).setColor(r, g, b, a);
-        // Top
-        builder.addVertex(matrix, minX, maxY, maxZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, maxY, maxZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, maxY, minZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, minX, maxY, minZ).setColor(r, g, b, a);
-        // Bottom
-        builder.addVertex(matrix, minX, minY, minZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, minY, minZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, maxX, minY, maxZ).setColor(r, g, b, a);
-        builder.addVertex(matrix, minX, minY, maxZ).setColor(r, g, b, a);
+            // South
+            consumer.addVertex(matrix, minX, minY, maxZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, minY, maxZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, minX, maxY, maxZ).setColor(r, g, b, a);
+            // North
+            consumer.addVertex(matrix, minX, maxY, minZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, maxY, minZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, minY, minZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, minX, minY, minZ).setColor(r, g, b, a);
+            // East
+            consumer.addVertex(matrix, maxX, minY, maxZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, minY, minZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, maxY, minZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(r, g, b, a);
+            // West
+            consumer.addVertex(matrix, minX, minY, minZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, minX, minY, maxZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, minX, maxY, maxZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, minX, maxY, minZ).setColor(r, g, b, a);
+            // Top
+            consumer.addVertex(matrix, minX, maxY, maxZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, maxY, minZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, minX, maxY, minZ).setColor(r, g, b, a);
+            // Bottom
+            consumer.addVertex(matrix, minX, minY, minZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, minY, minZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, maxX, minY, maxZ).setColor(r, g, b, a);
+            consumer.addVertex(matrix, minX, minY, maxZ).setColor(r, g, b, a);
+        });
     }
 
-    private static void renderFrame(PoseStack poseStack, MultiBufferSource buffer,
+    private static void renderFrame(PoseStack poseStack, SubmitNodeCollector nodeCollector,
                                     float minX, float minY, float minZ,
                                     float width, float height, float depth,
                                     int color, int alpha) {
-        VertexConsumer builder = buffer.getBuffer(RenderType.lines());
-        Matrix4f matrix = poseStack.last().pose();
-        float maxX = minX + width;
-        float maxY = minY + height;
-        float maxZ = minZ + depth;
-        float r = ((color >> 16) & 0xFF) / 255.0f;
-        float g = ((color >> 8) & 0xFF) / 255.0f;
-        float b = (color & 0xFF) / 255.0f;
-        float a = alpha / 255.0f;
+        nodeCollector.submitCustomGeometry(poseStack, RenderType.lines(), (pose, consumer) -> {
+            Matrix4f matrix = pose.pose();
+            float maxX = minX + width;
+            float maxY = minY + height;
+            float maxZ = minZ + depth;
+            float r = ((color >> 16) & 0xFF) / 255.0f;
+            float g = ((color >> 8) & 0xFF) / 255.0f;
+            float b = (color & 0xFF) / 255.0f;
+            float a = alpha / 255.0f;
 
-        line(builder, matrix, minX, minY, minZ, maxX, minY, minZ, r, g, b, a);
-        line(builder, matrix, maxX, minY, minZ, maxX, minY, maxZ, r, g, b, a);
-        line(builder, matrix, maxX, minY, maxZ, minX, minY, maxZ, r, g, b, a);
-        line(builder, matrix, minX, minY, maxZ, minX, minY, minZ, r, g, b, a);
+            line(consumer, matrix, minX, minY, minZ, maxX, minY, minZ, r, g, b, a);
+            line(consumer, matrix, maxX, minY, minZ, maxX, minY, maxZ, r, g, b, a);
+            line(consumer, matrix, maxX, minY, maxZ, minX, minY, maxZ, r, g, b, a);
+            line(consumer, matrix, minX, minY, maxZ, minX, minY, minZ, r, g, b, a);
 
-        line(builder, matrix, minX, maxY, minZ, maxX, maxY, minZ, r, g, b, a);
-        line(builder, matrix, maxX, maxY, minZ, maxX, maxY, maxZ, r, g, b, a);
-        line(builder, matrix, maxX, maxY, maxZ, minX, maxY, maxZ, r, g, b, a);
-        line(builder, matrix, minX, maxY, maxZ, minX, maxY, minZ, r, g, b, a);
+            line(consumer, matrix, minX, maxY, minZ, maxX, maxY, minZ, r, g, b, a);
+            line(consumer, matrix, maxX, maxY, minZ, maxX, maxY, maxZ, r, g, b, a);
+            line(consumer, matrix, maxX, maxY, maxZ, minX, maxY, maxZ, r, g, b, a);
+            line(consumer, matrix, minX, maxY, maxZ, minX, maxY, minZ, r, g, b, a);
 
-        line(builder, matrix, minX, minY, minZ, minX, maxY, minZ, r, g, b, a);
-        line(builder, matrix, maxX, minY, minZ, maxX, maxY, minZ, r, g, b, a);
-        line(builder, matrix, maxX, minY, maxZ, maxX, maxY, maxZ, r, g, b, a);
-        line(builder, matrix, minX, minY, maxZ, minX, maxY, maxZ, r, g, b, a);
+            line(consumer, matrix, minX, minY, minZ, minX, maxY, minZ, r, g, b, a);
+            line(consumer, matrix, maxX, minY, minZ, maxX, maxY, minZ, r, g, b, a);
+            line(consumer, matrix, maxX, minY, maxZ, maxX, maxY, maxZ, r, g, b, a);
+            line(consumer, matrix, minX, minY, maxZ, minX, maxY, maxZ, r, g, b, a);
+        });
     }
 
     private static void line(VertexConsumer builder, Matrix4f matrix,
@@ -335,8 +349,16 @@ public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
         builder.addVertex(matrix, x2, y2, z2).setColor(r, g, b, a).setNormal(nx, ny, nz);
     }
 
-    @Override
-    public ResourceLocation getTextureLocation(EntityEditor entity) {
-        return TEXTURE;
+    public static class EntityEditorRenderState extends EntityRenderState {
+        public final int[] hitBoxBuf = new int[6];
+        public final int[] selectBoxBuf = new int[6];
+        public byte editMode;
+        public boolean selectEnd;
+        public boolean hasCloneBox;
+        public int[] cloneBox;
+        public NGTObject blocksForRenderer;
+        public double x, y, z;
+        public BlockPos targetPos = BlockPos.ZERO;
+        public boolean targetValid;
     }
 }

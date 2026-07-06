@@ -3,6 +3,7 @@ package com.pinkara.ye;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.pinkara.ye.client.EntityEditorRenderer;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -11,7 +12,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import org.lwjgl.glfw.GLFW;
 
-@EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT)
 public class YEKeyHandlerClient {
     // Match original YE key IDs
     public static final byte KEY_EditMode = 0;
@@ -79,37 +80,39 @@ public class YEKeyHandlerClient {
         event.registerEntityRenderer(YE.ENTITY_EDITOR.get(), EntityEditorRenderer::new);
     }
 
+    private static final KeyMapping.Category YE_CATEGORY = new KeyMapping.Category(ResourceLocation.fromNamespaceAndPath(YE.MODID, "main"));
+
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        KEY_EDIT_MODE = new KeyMapping("key.ye.edit_mode", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_M, "key.categories.ye");
-        KEY_EDIT_MENU = new KeyMapping("key.ye.edit_menu", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, "key.categories.ye");
-        KEY_UNDO = new KeyMapping("key.ye.undo", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Z, "key.categories.ye");
-        KEY_CLEAR = new KeyMapping("key.ye.clear", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_N, "key.categories.ye");
-        KEY_DELETE = new KeyMapping("key.ye.delete", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_DELETE, "key.categories.ye");
-        KEY_CUT = new KeyMapping("key.ye.cut", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_X, "key.categories.ye");
-        KEY_COPY = new KeyMapping("key.ye.copy", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_C, "key.categories.ye");
-        KEY_PASTE = new KeyMapping("key.ye.paste", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, "key.categories.ye");
-        KEY_FILL = new KeyMapping("key.ye.fill", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_B, "key.categories.ye");
+        KEY_EDIT_MODE = new KeyMapping("key.ye.edit_mode", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_SEMICOLON, YE_CATEGORY);
+        KEY_EDIT_MENU = new KeyMapping("key.ye.edit_menu", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, YE_CATEGORY);
+        KEY_UNDO = new KeyMapping("key.ye.undo", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Z, YE_CATEGORY);
+        KEY_CLEAR = new KeyMapping("key.ye.clear", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_N, YE_CATEGORY);
+        KEY_DELETE = new KeyMapping("key.ye.delete", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_DELETE, YE_CATEGORY);
+        KEY_CUT = new KeyMapping("key.ye.cut", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_X, YE_CATEGORY);
+        KEY_COPY = new KeyMapping("key.ye.copy", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_C, YE_CATEGORY);
+        KEY_PASTE = new KeyMapping("key.ye.paste", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, YE_CATEGORY);
+        KEY_FILL = new KeyMapping("key.ye.fill", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_B, YE_CATEGORY);
 
         // Numpad transform bindings
-        KEY_NP_ROT_X = new KeyMapping("key.ye.np_rot_x", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_8, "key.categories.ye");
-        KEY_NP_ROT_X_MINUS = new KeyMapping("key.ye.np_rot_x_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_2, "key.categories.ye");
-        KEY_NP_ROT_Y = new KeyMapping("key.ye.np_rot_y", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_4, "key.categories.ye");
-        KEY_NP_ROT_Y_MINUS = new KeyMapping("key.ye.np_rot_y_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_6, "key.categories.ye");
-        KEY_NP_ROT_Z = new KeyMapping("key.ye.np_rot_z", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_7, "key.categories.ye");
-        KEY_NP_ROT_Z_MINUS = new KeyMapping("key.ye.np_rot_z_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_9, "key.categories.ye");
-        KEY_NP_MIRROR_X = new KeyMapping("key.ye.np_mirror_x", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_1, "key.categories.ye");
-        KEY_NP_MIRROR_Y = new KeyMapping("key.ye.np_mirror_y", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_5, "key.categories.ye");
-        KEY_NP_MIRROR_Z = new KeyMapping("key.ye.np_mirror_z", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_3, "key.categories.ye");
+        KEY_NP_ROT_X = new KeyMapping("key.ye.np_rot_x", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_8, YE_CATEGORY);
+        KEY_NP_ROT_X_MINUS = new KeyMapping("key.ye.np_rot_x_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_2, YE_CATEGORY);
+        KEY_NP_ROT_Y = new KeyMapping("key.ye.np_rot_y", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_4, YE_CATEGORY);
+        KEY_NP_ROT_Y_MINUS = new KeyMapping("key.ye.np_rot_y_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_6, YE_CATEGORY);
+        KEY_NP_ROT_Z = new KeyMapping("key.ye.np_rot_z", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_7, YE_CATEGORY);
+        KEY_NP_ROT_Z_MINUS = new KeyMapping("key.ye.np_rot_z_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_9, YE_CATEGORY);
+        KEY_NP_MIRROR_X = new KeyMapping("key.ye.np_mirror_x", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_1, YE_CATEGORY);
+        KEY_NP_MIRROR_Y = new KeyMapping("key.ye.np_mirror_y", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_5, YE_CATEGORY);
+        KEY_NP_MIRROR_Z = new KeyMapping("key.ye.np_mirror_z", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_3, YE_CATEGORY);
 
-        KEY_CLONE_X_MINUS = new KeyMapping("key.ye.clone_x_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT, "key.categories.ye");
-        KEY_CLONE_X_PLUS = new KeyMapping("key.ye.clone_x_plus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT, "key.categories.ye");
-        KEY_CLONE_Y_MINUS = new KeyMapping("key.ye.clone_y_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_PAGE_DOWN, "key.categories.ye");
-        KEY_CLONE_Y_PLUS = new KeyMapping("key.ye.clone_y_plus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_PAGE_UP, "key.categories.ye");
-        KEY_CLONE_Z_MINUS = new KeyMapping("key.ye.clone_z_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UP, "key.categories.ye");
-        KEY_CLONE_Z_PLUS = new KeyMapping("key.ye.clone_z_plus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_DOWN, "key.categories.ye");
-        KEY_CLONE_COUNT_MINUS = new KeyMapping("key.ye.clone_count_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_HOME, "key.categories.ye");
-        KEY_CLONE_COUNT_PLUS = new KeyMapping("key.ye.clone_count_plus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_END, "key.categories.ye");
+        KEY_CLONE_X_MINUS = new KeyMapping("key.ye.clone_x_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT, YE_CATEGORY);
+        KEY_CLONE_X_PLUS = new KeyMapping("key.ye.clone_x_plus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT, YE_CATEGORY);
+        KEY_CLONE_Y_MINUS = new KeyMapping("key.ye.clone_y_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_PAGE_DOWN, YE_CATEGORY);
+        KEY_CLONE_Y_PLUS = new KeyMapping("key.ye.clone_y_plus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_PAGE_UP, YE_CATEGORY);
+        KEY_CLONE_Z_MINUS = new KeyMapping("key.ye.clone_z_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UP, YE_CATEGORY);
+        KEY_CLONE_Z_PLUS = new KeyMapping("key.ye.clone_z_plus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_DOWN, YE_CATEGORY);
+        KEY_CLONE_COUNT_MINUS = new KeyMapping("key.ye.clone_count_minus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_HOME, YE_CATEGORY);
+        KEY_CLONE_COUNT_PLUS = new KeyMapping("key.ye.clone_count_plus", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_END, YE_CATEGORY);
 
         event.register(KEY_EDIT_MODE);
         event.register(KEY_EDIT_MENU);

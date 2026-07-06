@@ -2,12 +2,12 @@ package com.pinkara.ye.gui;
 
 import com.pinkara.ye.editor.ChangeEntry;
 import com.pinkara.ye.network.PacketChangeBlocks;
+import com.pinkara.ye.network.YENetwork;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +63,9 @@ public class ChangeScreen extends NonBlockingScreen {
         guiGraphics.fillGradient(0, 0, this.width, this.height, 0x80000000, 0x80000000);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 10, 0xFFFFFF);
-        guiGraphics.drawString(this.font, "From", this.width / 2 - 70, 28, 0xFF0000);
-        guiGraphics.drawString(this.font, "To", this.width / 2 + 10, 28, 0x00FF00);
+        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 10, 0xFFFFFFFF);
+        guiGraphics.drawString(this.font, "From", this.width / 2 - 70, 28, 0xFFFF0000);
+        guiGraphics.drawString(this.font, "To", this.width / 2 + 10, 28, 0xFF00FF00);
 
         int cx = this.width / 2;
         for (int i = 0; i < entries.size(); ++i) {
@@ -75,7 +75,7 @@ public class ChangeScreen extends NonBlockingScreen {
             renderItemSlot(guiGraphics, entry.toItem, cx + 10, y);
         }
 
-        guiGraphics.drawWordWrap(this.font, Component.literal("Click a slot to choose a block from the picker."), this.width / 2 - 100, this.height - 60, 200, 0xAAAAAA);
+        guiGraphics.drawWordWrap(this.font, Component.literal("Click a slot to choose a block from the picker."), this.width / 2 - 100, this.height - 60, 200, 0xFFAAAAAA);
     }
 
     private void renderItemSlot(GuiGraphics guiGraphics, ItemStack stack, int x, int y) {
@@ -126,7 +126,7 @@ public class ChangeScreen extends NonBlockingScreen {
             }
         }
         if (!valid.isEmpty()) {
-            PacketDistributor.sendToServer(new PacketChangeBlocks(valid));
+            YENetwork.sendToServer(new PacketChangeBlocks(valid));
         }
         this.onClose();
     }

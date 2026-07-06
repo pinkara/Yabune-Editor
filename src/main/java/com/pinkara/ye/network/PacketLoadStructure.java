@@ -12,6 +12,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketLoadStructure(String name) implements CustomPacketPayload {
@@ -30,18 +31,18 @@ public record PacketLoadStructure(String name) implements CustomPacketPayload {
             Player player = ctx.player();
             Editor editor = EditorManager.INSTANCE.getEditor(player);
             if (editor == null) {
-                NGTLog.sendChatMessage(player.createCommandSourceStack(), "No editor found.");
+                NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "No editor found.");
                 return;
             }
             NGTObject ngto = StructureManager.INSTANCE.load(message.name());
             if (ngto == null) {
-                NGTLog.sendChatMessage(player.createCommandSourceStack(), "Structure not found: " + message.name());
+                NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "Structure not found: " + message.name());
                 return;
             }
             editor.loadData(ngto);
             editor.getEntity().setEditMode((byte) 2);
             editor.getEntity().updateBlockList(ngto);
-            NGTLog.sendChatMessage(player.createCommandSourceStack(), "Loaded structure: " + message.name());
+            NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "Loaded structure: " + message.name());
         });
     }
 }

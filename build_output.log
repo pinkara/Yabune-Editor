@@ -1,0 +1,890 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Calculating task graph as configuration cache cannot be reused because file 'run\junit\junit_test_args.txt' has changed.
+
+> Configure project :
+Enabling dist annotations on PMJ
+
+> Task :processTestResources NO-SOURCE
+> Task :processResources UP-TO-DATE
+> Task :neoFormJoined1.21.10-20251010.172816DownloadAssets UP-TO-DATE
+> Task :cacheVersionManifest1.21.10 UP-TO-DATE
+> Task :neoFormJoined1.21.10-20251010.172816ExtractNatives UP-TO-DATE
+> Task :neoFormListTransformLibraries UP-TO-DATE
+> Task :cacheVersionMappingsClient1.21.10 UP-TO-DATE
+> Task :cacheVersionExecutableServer1.21.10 UP-TO-DATE
+> Task :cacheVersionExecutableClient1.21.10 UP-TO-DATE
+> Task :neoFormListLibraries UP-TO-DATE
+> Task :neoFormStripClientFinals UP-TO-DATE
+> Task :neoFormStripServerFinals UP-TO-DATE
+> Task :neoFormSetup UP-TO-DATE
+> Task :neoFormDecompile UP-TO-DATE
+> Task :neoFormInject UP-TO-DATE
+> Task :neoFormPatch UP-TO-DATE
+> Task :neoFormPatchUserDev UP-TO-DATE
+> Task :neoFormTransformSource UP-TO-DATE
+> Task :neoFormRecompile UP-TO-DATE
+> Task :supplyRawJarForneoFormJoined1.21.10-20251010.172816 UP-TO-DATE
+> Task :selectRawArtifactNg_dummy_ng.net.neoforged_neoforge_21.10.64 UP-TO-DATE
+
+> Task :compileJava FAILED
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:28: error: wrong number of type arguments; required 2
+public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
+                                                        ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:14: error: cannot find symbol
+import net.minecraft.world.InteractionResultHolder;
+                          ^
+  symbol:   class InteractionResultHolder
+  location: package net.minecraft.world
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:65: error: cannot find symbol
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+           ^
+  symbol:   class InteractionResultHolder
+  location: class ItemEditor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EditorHud.java:13: error: cannot find symbol
+@EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                           ^
+  symbol:   method bus()
+  location: @interface EventBusSubscriber
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EditorHud.java:13: error: cannot find symbol
+@EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                                                   ^
+  symbol:   variable Bus
+  location: @interface EventBusSubscriber
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:10: error: cannot find symbol
+@EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                           ^
+  symbol:   method bus()
+  location: @interface EventBusSubscriber
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:10: error: cannot find symbol
+@EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                                                   ^
+  symbol:   variable Bus
+  location: @interface EventBusSubscriber
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEKeyHandlerClient.java:14: error: cannot find symbol
+@EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+                                                           ^
+  symbol:   method bus()
+  location: @interface EventBusSubscriber
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEKeyHandlerClient.java:14: error: cannot find symbol
+@EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+                                                                                   ^
+  symbol:   variable Bus
+  location: @interface EventBusSubscriber
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEServerEvents.java:9: error: cannot find symbol
+@EventBusSubscriber(modid = YE.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                      ^
+  symbol:   method bus()
+  location: @interface EventBusSubscriber
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEServerEvents.java:9: error: cannot find symbol
+@EventBusSubscriber(modid = YE.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                              ^
+  symbol:   variable Bus
+  location: @interface EventBusSubscriber
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:25: error: EntityEditor is not abstract and does not override abstract method addAdditionalSaveData(ValueOutput) in Entity
+public class EntityEditor extends Entity {
+       ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:66: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:70: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:77: error: isClientSide has private access in Level
+        if (key == START_POS && this.level().isClientSide) {
+                                            ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:89: error: isClientSide has private access in Level
+        if (!this.level().isClientSide) {
+                         ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:98: error: isClientSide has private access in Level
+        if (!this.level().isClientSide) {
+                         ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:104: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:124: error: isClientSide has private access in Level
+                } else if (this.level().isClientSide) {
+                                       ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:134: error: cannot find symbol
+        this.entityData.set(PLAMCTER, par1.getGameProfile().getName());
+                                                           ^
+  symbol:   method getName()
+  location: class GameProfile
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:201: error: isClientSide has private access in Level
+        if (!this.level().isClientSide && this.getPlayer() instanceof ServerPlayer serverPlayer) {
+                         ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:214: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:120: error: method getList in class CompoundTag cannot be applied to given types;
+        ListTag tagList2 = data.getList("IdList", 10);
+                               ^
+  required: String
+  found:    String,int
+  reason: actual and formal argument lists differ in length
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:122: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+            CompoundTag tag = tagList2.getCompound(i);
+                                                  ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:123: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+            BlockSet set = BlockSet.readFromNBT(tag.getCompound("Set"));
+                                                               ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:124: error: incompatible types: Optional<Integer> cannot be converted to int
+            int id = tag.getInt("Id");
+                               ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:130: error: incompatible types: Optional<int[]> cannot be converted to int[]
+            ids = data.getIntArray("IData");
+                                  ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:132: error: incompatible types: Optional<byte[]> cannot be converted to byte[]
+            byte[] bytes = data.getByteArray("BData");
+                                            ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:138: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+        CompoundTag nbts = data.getCompound("NBTs");
+                                           ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:143: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+                list.add(set.setNBT(nbts.getCompound(String.valueOf(i))));
+                                                    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:148: error: incompatible types: Optional<Integer> cannot be converted to int
+        int x = data.getInt("SizeX");
+                           ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:149: error: incompatible types: Optional<Integer> cannot be converted to int
+        int y = data.getInt("SizeY");
+                           ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:150: error: incompatible types: Optional<Integer> cannot be converted to int
+        int z = data.getInt("SizeZ");
+                           ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:151: error: incompatible types: Optional<Integer> cannot be converted to int
+        int ox = data.getInt("OrigX");
+                            ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:152: error: incompatible types: Optional<Integer> cannot be converted to int
+        int oy = data.getInt("OrigY");
+                            ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:153: error: incompatible types: Optional<Integer> cannot be converted to int
+        int oz = data.getInt("OrigZ");
+                            ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:154: error: incompatible types: Optional<Long> cannot be converted to long
+        long objId = data.getLong("ObjId");
+                                 ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:169: error: incompatible types: Optional<byte[]> cannot be converted to byte[]
+        byte[] compressedData = data.getByteArray("ByteData");
+                                                 ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:53: error: incompatible types: Optional<String> cannot be converted to String
+        Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(nbt.getString("Block")));
+                                                                                         ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:58: error: method contains in class CompoundTag cannot be applied to given types;
+        if (nbt.contains("Properties", 10)) {
+               ^
+  required: String
+  found:    String,int
+  reason: actual and formal argument lists differ in length
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:59: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+            CompoundTag props = nbt.getCompound("Properties");
+                                               ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:60: error: cannot find symbol
+            for (String key : props.getAllKeys()) {
+                                   ^
+  symbol:   method getAllKeys()
+  location: variable props of type CompoundTag
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:63: error: incompatible types: Optional<String> cannot be converted to String
+                    state = setValue(state, property, props.getString(key));
+                                                                     ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:68: error: incompatible types: Optional<Integer> cannot be converted to int
+            int meta = nbt.getInt("Meta");
+                                 ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:71: error: method contains in class CompoundTag cannot be applied to given types;
+        CompoundTag tagData = nbt.contains("TagData", 10) ? nbt.getCompound("TagData") : null;
+                                 ^
+  required: String
+  found:    String,int
+  reason: actual and formal argument lists differ in length
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:71: error: incompatible types: bad type in conditional expression
+        CompoundTag tagData = nbt.contains("TagData", 10) ? nbt.getCompound("TagData") : null;
+                                                                           ^
+    Optional<CompoundTag> cannot be converted to CompoundTag
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:41: error: cannot find symbol
+                    .setCullState(RenderStateShard.NO_CULL)
+                                                  ^
+  symbol:   variable NO_CULL
+  location: class RenderStateShard
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:40: error: cannot find symbol
+                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                                                          ^
+  symbol:   variable TRANSLUCENT_TRANSPARENCY
+  location: class RenderStateShard
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:39: error: cannot find symbol
+                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                                                    ^
+  symbol:   variable POSITION_COLOR_SHADER
+  location: class RenderStateShard
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:51: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:115: error: cannot find symbol
+            Font font = this.getFont();
+                            ^
+  symbol: method getFont()
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:132: error: cannot find symbol
+                    poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+                                          ^
+  symbol: variable entityRenderDispatcher
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:207: error: cannot find symbol
+        Font font = this.getFont();
+                        ^
+  symbol: method getFont()
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:212: error: cannot find symbol
+        poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+                              ^
+  symbol: variable entityRenderDispatcher
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:338: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\Editor.java:46: error: isClientSide has private access in Level
+        if (world.isClientSide) {
+                 ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\Editor.java:51: error: cannot find symbol
+        EditorManager.INSTANCE.add(player.getGameProfile().getName(), editor);
+                                                          ^
+  symbol:   method getName()
+  location: class GameProfile
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\Editor.java:120: error: isClientSide has private access in Level
+        if (world.isClientSide) {
+                 ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\Editor.java:250: error: method loadWithComponents in class BlockEntity cannot be applied to given types;
+            tile.loadWithComponents(nbt0, this.getWorld().registryAccess());
+                ^
+  required: ValueInput
+  found:    CompoundTag,RegistryAccess
+  reason: actual and formal argument lists differ in length
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EditorManager.java:32: error: cannot find symbol
+        this.editorMap.remove(player.getGameProfile().getName());
+                                                     ^
+  symbol:   method getName()
+  location: class GameProfile
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EditorManager.java:50: error: cannot find symbol
+        return this.getEditor(par1.getGameProfile().getName());
+                                                   ^
+  symbol:   method getName()
+  location: class GameProfile
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:101: error: no suitable method found for renderTooltip(Font,ItemStack,int,int)
+            guiGraphics.renderTooltip(this.font, hovered, mouseX, mouseY);
+                       ^
+    method GuiGraphics.renderTooltip(Font,List<ClientTooltipComponent>,int,int,ClientTooltipPositioner,ResourceLocation) is not applicable
+      (actual and formal argument lists differ in length)
+    method GuiGraphics.renderTooltip(Font,List<ClientTooltipComponent>,int,int,ClientTooltipPositioner,ResourceLocation,ItemStack) is not applicable
+      (actual and formal argument lists differ in length)
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:128: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:130: error: method mouseClicked in interface ContainerEventHandler cannot be applied to given types;
+        if (super.mouseClicked(mouseX, mouseY, button)) {
+                 ^
+  required: MouseButtonEvent,boolean
+  found:    double,double,int
+  reason: actual and formal argument lists differ in length
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:153: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:159: error: method keyPressed in class Screen cannot be applied to given types;
+        return super.keyPressed(keyCode, scanCode, modifiers);
+                    ^
+  required: KeyEvent
+  found:    int,int,int
+  reason: actual and formal argument lists differ in length
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:33: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:58: error: method keyPressed in class Screen cannot be applied to given types;
+        return super.keyPressed(keyCode, scanCode, modifiers);
+                    ^
+  required: KeyEvent
+  found:    int,int,int
+  reason: actual and formal argument lists differ in length
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:61: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:66: error: method keyReleased in interface ContainerEventHandler cannot be applied to given types;
+        return super.keyReleased(keyCode, scanCode, modifiers);
+                    ^
+  required: KeyEvent
+  found:    int,int,int
+  reason: actual and formal argument lists differ in length
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:92: error: selected has private access in Inventory
+                mc.player.getInventory().selected = i;
+                                        ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:117: error: cannot find symbol
+            PacketDistributor.sendToServer(new PacketYEKey(key));
+                             ^
+  symbol:   method sendToServer(PacketYEKey)
+  location: class PacketDistributor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\ChangeScreen.java:129: error: cannot find symbol
+            PacketDistributor.sendToServer(new PacketChangeBlocks(valid));
+                             ^
+  symbol:   method sendToServer(PacketChangeBlocks)
+  location: class PacketDistributor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\StructureBrowserScreen.java:140: error: com.pinkara.ye.gui.StructureBrowserScreen.StructureList.Entry is not abstract and does not override abstract method renderContent(GuiGraphics,int,int,boolean,float) in net.minecraft.client.gui.components.AbstractSelectionList.Entry
+        private class Entry extends ObjectSelectionList.Entry<Entry> {
+                ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\StructureBrowserScreen.java:147: error: method does not override or implement a method from a supertype
+            @Override
+            ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:36: error: isClientSide has private access in Level
+        if (player == null || world.isClientSide) {
+                                   ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:54: error: cannot find symbol
+                    entityEditor.moveTo(player.getX(), player.getY(), player.getZ(), 0.0f, 0.0f);
+                                ^
+  symbol:   method moveTo(double,double,double,float,float)
+  location: variable entityEditor of type EntityEditor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:59: error: cannot find symbol
+            player.sendSystemMessage(Component.translatable("You don't have permission to use Editor."));
+                  ^
+  symbol:   method sendSystemMessage(MutableComponent)
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:66: error: isClientSide has private access in Level
+        if (level.isClientSide) {
+                 ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:67: error: cannot find symbol
+            return InteractionResultHolder.success(player.getItemInHand(hand));
+                   ^
+  symbol:   variable InteractionResultHolder
+  location: class ItemEditor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:78: error: cannot find symbol
+        return InteractionResultHolder.success(player.getItemInHand(hand));
+               ^
+  symbol:   variable InteractionResultHolder
+  location: class ItemEditor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketEditorAction.java:63: error: cannot find symbol
+                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "Copied selection");
+                                                 ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketEditorAction.java:69: error: cannot find symbol
+                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "Pasted selection");
+                                                 ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketEditorAction.java:78: error: cannot find symbol
+                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "Cloned selection");
+                                                 ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketExportMesh.java:37: error: cannot find symbol
+                NGTLog.sendChatMessage(player.createCommandSourceStack(), "No editor found.");
+                                             ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketExportMesh.java:42: error: cannot find symbol
+                NGTLog.sendChatMessage(player.createCommandSourceStack(), "No selection set.");
+                                             ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketExportMesh.java:56: error: cannot find symbol
+            NGTLog.sendChatMessage(player.createCommandSourceStack(), ok ? "Exported mesh to: " + path : "Failed to export mesh.");
+                                         ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketLoadStructure.java:33: error: cannot find symbol
+                NGTLog.sendChatMessage(player.createCommandSourceStack(), "No editor found.");
+                                             ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketLoadStructure.java:38: error: cannot find symbol
+                NGTLog.sendChatMessage(player.createCommandSourceStack(), "Structure not found: " + message.name());
+                                             ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketLoadStructure.java:44: error: cannot find symbol
+            NGTLog.sendChatMessage(player.createCommandSourceStack(), "Loaded structure: " + message.name());
+                                         ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketRenderBlocks.java:29: error: isClientSide has private access in Level
+            if (ctx.player().level().isClientSide) {
+                                    ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketRenderBlocks.java:43: error: cannot find symbol
+        String name = player.getGameProfile().getName();
+                                             ^
+  symbol:   method getName()
+  location: class GameProfile
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketSaveStructure.java:32: error: cannot find symbol
+                NGTLog.sendChatMessage(player.createCommandSourceStack(), "Nothing to save. Copy a selection first.");
+                                             ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketSaveStructure.java:36: error: cannot find symbol
+            NGTLog.sendChatMessage(player.createCommandSourceStack(), ok ? "Saved structure: " + message.name() : "Failed to save structure.");
+                                         ^
+  symbol:   method createCommandSourceStack()
+  location: variable player of type Player
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\YENetwork.java:19: error: cannot find symbol
+        PacketDistributor.sendToServer(payload);
+                         ^
+  symbol:   method sendToServer(CustomPacketPayload)
+  location: class PacketDistributor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YE.java:40: error: incompatible types: String cannot be converted to ResourceKey<EntityType<?>>
+                    .build("editor"));
+                           ^
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:17: error: cannot find symbol
+            PacketDistributor.sendToServer(new com.pinkara.ye.network.PacketYEKey(YEKeyHandlerClient.KEY_EditMode));
+                             ^
+  symbol:   method sendToServer(PacketYEKey)
+  location: class PacketDistributor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:20: error: cannot find symbol
+            PacketDistributor.sendToServer(new com.pinkara.ye.network.PacketYEKey(YEKeyHandlerClient.KEY_EditMenu));
+                             ^
+  symbol:   method sendToServer(PacketYEKey)
+  location: class PacketDistributor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:23: error: cannot find symbol
+            PacketDistributor.sendToServer(new com.pinkara.ye.network.PacketYEKey(YEKeyHandlerClient.KEY_Undo));
+                             ^
+  symbol:   method sendToServer(PacketYEKey)
+  location: class PacketDistributor
+E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:26: error: cannot find symbol
+            PacketDistributor.sendToServer(new com.pinkara.ye.network.PacketYEKey(YEKeyHandlerClient.KEY_Clear));
+                             ^
+  symbol:   method sendToServer(PacketYEKey)
+  location: class PacketDistributor
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+100 errors
+
+[Incubating] Problems report is available at: file:///E:/RTM_MOD/mods/mcte_1.21.1_port/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:120: error: method getList in class CompoundTag cannot be applied to given types;
+          ListTag tagList2 = data.getList("IdList", 10);
+                                 ^
+    required: String
+    found:    String,int
+    reason: actual and formal argument lists differ in length
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:58: error: method contains in class CompoundTag cannot be applied to given types;
+          if (nbt.contains("Properties", 10)) {
+                 ^
+    required: String
+    found:    String,int
+    reason: actual and formal argument lists differ in length
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:71: error: method contains in class CompoundTag cannot be applied to given types;
+          CompoundTag tagData = nbt.contains("TagData", 10) ? nbt.getCompound("TagData") : null;
+                                   ^
+    required: String
+    found:    String,int
+    reason: actual and formal argument lists differ in length
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\Editor.java:250: error: method loadWithComponents in class BlockEntity cannot be applied to given types;
+              tile.loadWithComponents(nbt0, this.getWorld().registryAccess());
+                  ^
+    required: ValueInput
+    found:    CompoundTag,RegistryAccess
+    reason: actual and formal argument lists differ in length
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:130: error: method mouseClicked in interface ContainerEventHandler cannot be applied to given types;
+          if (super.mouseClicked(mouseX, mouseY, button)) {
+                   ^
+    required: MouseButtonEvent,boolean
+    found:    double,double,int
+    reason: actual and formal argument lists differ in length
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:159: error: method keyPressed in class Screen cannot be applied to given types;
+          return super.keyPressed(keyCode, scanCode, modifiers);
+                      ^
+    required: KeyEvent
+    found:    int,int,int
+    reason: actual and formal argument lists differ in length
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:58: error: method keyPressed in class Screen cannot be applied to given types;
+          return super.keyPressed(keyCode, scanCode, modifiers);
+                      ^
+    required: KeyEvent
+    found:    int,int,int
+    reason: actual and formal argument lists differ in length
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:66: error: method keyReleased in interface ContainerEventHandler cannot be applied to given types;
+          return super.keyReleased(keyCode, scanCode, modifiers);
+                      ^
+    required: KeyEvent
+    found:    int,int,int
+    reason: actual and formal argument lists differ in length
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:101: error: no suitable method found for renderTooltip(Font,ItemStack,int,int)
+              guiGraphics.renderTooltip(this.font, hovered, mouseX, mouseY);
+                         ^
+      method GuiGraphics.renderTooltip(Font,List<ClientTooltipComponent>,int,int,ClientTooltipPositioner,ResourceLocation) is not applicable
+        (actual and formal argument lists differ in length)
+      method GuiGraphics.renderTooltip(Font,List<ClientTooltipComponent>,int,int,ClientTooltipPositioner,ResourceLocation,ItemStack) is not applicable
+        (actual and formal argument lists differ in length)
+  Note: Recompile with -Xlint:deprecation for details.
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:28: error: wrong number of type arguments; required 2
+  public class EntityEditorRenderer extends EntityRenderer<EntityEditor> {
+                                                          ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:14: error: cannot find symbol
+  import net.minecraft.world.InteractionResultHolder;
+                            ^
+    symbol:   class InteractionResultHolder
+    location: package net.minecraft.world
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:65: error: cannot find symbol
+      public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+             ^
+    symbol:   class InteractionResultHolder
+    location: class ItemEditor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EditorHud.java:13: error: cannot find symbol
+  @EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                                                     ^
+    symbol:   variable Bus
+    location: @interface EventBusSubscriber
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:10: error: cannot find symbol
+  @EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                                                     ^
+    symbol:   variable Bus
+    location: @interface EventBusSubscriber
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEKeyHandlerClient.java:14: error: cannot find symbol
+  @EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+                                                                                     ^
+    symbol:   variable Bus
+    location: @interface EventBusSubscriber
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEServerEvents.java:9: error: cannot find symbol
+  @EventBusSubscriber(modid = YE.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+    symbol:   variable Bus
+    location: @interface EventBusSubscriber
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:41: error: cannot find symbol
+                      .setCullState(RenderStateShard.NO_CULL)
+                                                    ^
+    symbol:   variable NO_CULL
+    location: class RenderStateShard
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:40: error: cannot find symbol
+                      .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                                                            ^
+    symbol:   variable TRANSLUCENT_TRANSPARENCY
+    location: class RenderStateShard
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:39: error: cannot find symbol
+                      .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                                                      ^
+    symbol:   variable POSITION_COLOR_SHADER
+    location: class RenderStateShard
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:67: error: cannot find symbol
+              return InteractionResultHolder.success(player.getItemInHand(hand));
+                     ^
+    symbol:   variable InteractionResultHolder
+    location: class ItemEditor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:78: error: cannot find symbol
+          return InteractionResultHolder.success(player.getItemInHand(hand));
+                 ^
+    symbol:   variable InteractionResultHolder
+    location: class ItemEditor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:77: error: isClientSide has private access in Level
+          if (key == START_POS && this.level().isClientSide) {
+                                              ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:89: error: isClientSide has private access in Level
+          if (!this.level().isClientSide) {
+                           ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:98: error: isClientSide has private access in Level
+          if (!this.level().isClientSide) {
+                           ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:124: error: isClientSide has private access in Level
+                  } else if (this.level().isClientSide) {
+                                         ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:201: error: isClientSide has private access in Level
+          if (!this.level().isClientSide && this.getPlayer() instanceof ServerPlayer serverPlayer) {
+                           ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\Editor.java:46: error: isClientSide has private access in Level
+          if (world.isClientSide) {
+                   ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\Editor.java:120: error: isClientSide has private access in Level
+          if (world.isClientSide) {
+                   ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:92: error: selected has private access in Inventory
+                  mc.player.getInventory().selected = i;
+                                          ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:36: error: isClientSide has private access in Level
+          if (player == null || world.isClientSide) {
+                                     ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:66: error: isClientSide has private access in Level
+          if (level.isClientSide) {
+                   ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketRenderBlocks.java:29: error: isClientSide has private access in Level
+              if (ctx.player().level().isClientSide) {
+                                      ^
+  Note: Some input files use or override a deprecated API.
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:66: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:70: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:104: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:214: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:51: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:338: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:128: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\BlockPickerScreen.java:153: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:33: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:61: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\StructureBrowserScreen.java:147: error: method does not override or implement a method from a supertype
+              @Override
+              ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EditorHud.java:13: error: cannot find symbol
+  @EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                             ^
+    symbol:   method bus()
+    location: @interface EventBusSubscriber
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:10: error: cannot find symbol
+  @EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                             ^
+    symbol:   method bus()
+    location: @interface EventBusSubscriber
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEKeyHandlerClient.java:14: error: cannot find symbol
+  @EventBusSubscriber(modid = YE.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+                                                             ^
+    symbol:   method bus()
+    location: @interface EventBusSubscriber
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEServerEvents.java:9: error: cannot find symbol
+  @EventBusSubscriber(modid = YE.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+    symbol:   method bus()
+    location: @interface EventBusSubscriber
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:134: error: cannot find symbol
+          this.entityData.set(PLAMCTER, par1.getGameProfile().getName());
+                                                             ^
+    symbol:   method getName()
+    location: class GameProfile
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:60: error: cannot find symbol
+              for (String key : props.getAllKeys()) {
+                                     ^
+    symbol:   method getAllKeys()
+    location: variable props of type CompoundTag
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\Editor.java:51: error: cannot find symbol
+          EditorManager.INSTANCE.add(player.getGameProfile().getName(), editor);
+                                                            ^
+    symbol:   method getName()
+    location: class GameProfile
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EditorManager.java:32: error: cannot find symbol
+          this.editorMap.remove(player.getGameProfile().getName());
+                                                       ^
+    symbol:   method getName()
+    location: class GameProfile
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EditorManager.java:50: error: cannot find symbol
+          return this.getEditor(par1.getGameProfile().getName());
+                                                     ^
+    symbol:   method getName()
+    location: class GameProfile
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\NonBlockingScreen.java:117: error: cannot find symbol
+              PacketDistributor.sendToServer(new PacketYEKey(key));
+                               ^
+    symbol:   method sendToServer(PacketYEKey)
+    location: class PacketDistributor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\ChangeScreen.java:129: error: cannot find symbol
+              PacketDistributor.sendToServer(new PacketChangeBlocks(valid));
+                               ^
+    symbol:   method sendToServer(PacketChangeBlocks)
+    location: class PacketDistributor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:54: error: cannot find symbol
+                      entityEditor.moveTo(player.getX(), player.getY(), player.getZ(), 0.0f, 0.0f);
+                                  ^
+    symbol:   method moveTo(double,double,double,float,float)
+    location: variable entityEditor of type EntityEditor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\item\ItemEditor.java:59: error: cannot find symbol
+              player.sendSystemMessage(Component.translatable("You don't have permission to use Editor."));
+                    ^
+    symbol:   method sendSystemMessage(MutableComponent)
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketEditorAction.java:63: error: cannot find symbol
+                      NGTLog.sendChatMessage(player.createCommandSourceStack(), "Copied selection");
+                                                   ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketEditorAction.java:69: error: cannot find symbol
+                      NGTLog.sendChatMessage(player.createCommandSourceStack(), "Pasted selection");
+                                                   ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketEditorAction.java:78: error: cannot find symbol
+                      NGTLog.sendChatMessage(player.createCommandSourceStack(), "Cloned selection");
+                                                   ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketExportMesh.java:37: error: cannot find symbol
+                  NGTLog.sendChatMessage(player.createCommandSourceStack(), "No editor found.");
+                                               ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketExportMesh.java:42: error: cannot find symbol
+                  NGTLog.sendChatMessage(player.createCommandSourceStack(), "No selection set.");
+                                               ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketExportMesh.java:56: error: cannot find symbol
+              NGTLog.sendChatMessage(player.createCommandSourceStack(), ok ? "Exported mesh to: " + path : "Failed to export mesh.");
+                                           ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketLoadStructure.java:33: error: cannot find symbol
+                  NGTLog.sendChatMessage(player.createCommandSourceStack(), "No editor found.");
+                                               ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketLoadStructure.java:38: error: cannot find symbol
+                  NGTLog.sendChatMessage(player.createCommandSourceStack(), "Structure not found: " + message.name());
+                                               ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketLoadStructure.java:44: error: cannot find symbol
+              NGTLog.sendChatMessage(player.createCommandSourceStack(), "Loaded structure: " + message.name());
+                                           ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketRenderBlocks.java:43: error: cannot find symbol
+          String name = player.getGameProfile().getName();
+                                               ^
+    symbol:   method getName()
+    location: class GameProfile
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketSaveStructure.java:32: error: cannot find symbol
+                  NGTLog.sendChatMessage(player.createCommandSourceStack(), "Nothing to save. Copy a selection first.");
+                                               ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\PacketSaveStructure.java:36: error: cannot find symbol
+              NGTLog.sendChatMessage(player.createCommandSourceStack(), ok ? "Saved structure: " + message.name() : "Failed to save structure.");
+                                           ^
+    symbol:   method createCommandSourceStack()
+    location: variable player of type Player
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\network\YENetwork.java:19: error: cannot find symbol
+          PacketDistributor.sendToServer(payload);
+                           ^
+    symbol:   method sendToServer(CustomPacketPayload)
+    location: class PacketDistributor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:17: error: cannot find symbol
+              PacketDistributor.sendToServer(new com.pinkara.ye.network.PacketYEKey(YEKeyHandlerClient.KEY_EditMode));
+                               ^
+    symbol:   method sendToServer(PacketYEKey)
+    location: class PacketDistributor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:20: error: cannot find symbol
+              PacketDistributor.sendToServer(new com.pinkara.ye.network.PacketYEKey(YEKeyHandlerClient.KEY_EditMenu));
+                               ^
+    symbol:   method sendToServer(PacketYEKey)
+    location: class PacketDistributor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:23: error: cannot find symbol
+              PacketDistributor.sendToServer(new com.pinkara.ye.network.PacketYEKey(YEKeyHandlerClient.KEY_Undo));
+                               ^
+    symbol:   method sendToServer(PacketYEKey)
+    location: class PacketDistributor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YEClientEvents.java:26: error: cannot find symbol
+              PacketDistributor.sendToServer(new com.pinkara.ye.network.PacketYEKey(YEKeyHandlerClient.KEY_Clear));
+                               ^
+    symbol:   method sendToServer(PacketYEKey)
+    location: class PacketDistributor
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:115: error: cannot find symbol
+              Font font = this.getFont();
+                              ^
+    symbol: method getFont()
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:207: error: cannot find symbol
+          Font font = this.getFont();
+                          ^
+    symbol: method getFont()
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:122: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+              CompoundTag tag = tagList2.getCompound(i);
+                                                    ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:123: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+              BlockSet set = BlockSet.readFromNBT(tag.getCompound("Set"));
+                                                                 ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:124: error: incompatible types: Optional<Integer> cannot be converted to int
+              int id = tag.getInt("Id");
+                                 ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:130: error: incompatible types: Optional<int[]> cannot be converted to int[]
+              ids = data.getIntArray("IData");
+                                    ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:132: error: incompatible types: Optional<byte[]> cannot be converted to byte[]
+              byte[] bytes = data.getByteArray("BData");
+                                              ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:138: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+          CompoundTag nbts = data.getCompound("NBTs");
+                                             ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:143: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+                  list.add(set.setNBT(nbts.getCompound(String.valueOf(i))));
+                                                      ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:148: error: incompatible types: Optional<Integer> cannot be converted to int
+          int x = data.getInt("SizeX");
+                             ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:149: error: incompatible types: Optional<Integer> cannot be converted to int
+          int y = data.getInt("SizeY");
+                             ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:150: error: incompatible types: Optional<Integer> cannot be converted to int
+          int z = data.getInt("SizeZ");
+                             ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:151: error: incompatible types: Optional<Integer> cannot be converted to int
+          int ox = data.getInt("OrigX");
+                              ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:152: error: incompatible types: Optional<Integer> cannot be converted to int
+          int oy = data.getInt("OrigY");
+                              ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:153: error: incompatible types: Optional<Integer> cannot be converted to int
+          int oz = data.getInt("OrigZ");
+                              ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:154: error: incompatible types: Optional<Long> cannot be converted to long
+          long objId = data.getLong("ObjId");
+                                   ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\NGTObject.java:169: error: incompatible types: Optional<byte[]> cannot be converted to byte[]
+          byte[] compressedData = data.getByteArray("ByteData");
+                                                   ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:53: error: incompatible types: Optional<String> cannot be converted to String
+          Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(nbt.getString("Block")));
+                                                                                           ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:59: error: incompatible types: Optional<CompoundTag> cannot be converted to CompoundTag
+              CompoundTag props = nbt.getCompound("Properties");
+                                                 ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:63: error: incompatible types: Optional<String> cannot be converted to String
+                      state = setValue(state, property, props.getString(key));
+                                                                       ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:68: error: incompatible types: Optional<Integer> cannot be converted to int
+              int meta = nbt.getInt("Meta");
+                                   ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\youma\block\BlockSet.java:71: error: incompatible types: bad type in conditional expression
+          CompoundTag tagData = nbt.contains("TagData", 10) ? nbt.getCompound("TagData") : null;
+                                                                             ^
+      Optional<CompoundTag> cannot be converted to CompoundTag
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\YE.java:40: error: incompatible types: String cannot be converted to ResourceKey<EntityType<?>>
+                      .build("editor"));
+                             ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\editor\EntityEditor.java:25: error: EntityEditor is not abstract and does not override abstract method addAdditionalSaveData(ValueOutput) in Entity
+  public class EntityEditor extends Entity {
+         ^
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\gui\StructureBrowserScreen.java:140: error: com.pinkara.ye.gui.StructureBrowserScreen.StructureList.Entry is not abstract and does not override abstract method renderContent(GuiGraphics,int,int,boolean,float) in net.minecraft.client.gui.components.AbstractSelectionList.Entry
+          private class Entry extends ObjectSelectionList.Entry<Entry> {
+                  ^
+  Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:132: error: cannot find symbol
+                      poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+                                            ^
+    symbol: variable entityRenderDispatcher
+  E:\RTM_MOD\mods\mcte_1.21.1_port\src\main\java\com\pinkara\ye\client\EntityEditorRenderer.java:212: error: cannot find symbol
+          poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+                                ^
+    symbol: variable entityRenderDispatcher
+  100 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to generate a Build Scan (powered by Develocity).
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 14s
+21 actionable tasks: 1 executed, 20 up-to-date
+Configuration cache entry stored.

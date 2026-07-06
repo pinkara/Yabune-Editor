@@ -48,7 +48,7 @@ displayName="${mod_name}" #mandatory
 credits="Pinkara"
 authors="Pinkara"
 description='''
-Yabune Editor - A world editing tool for Minecraft 1.21.1.
+Yabune Editor - A world editing tool for Minecraft 1.21.10.
 Features: selection, copy/paste, fill, change, clone, and structure export.
 Created by Pinkara.
 '''

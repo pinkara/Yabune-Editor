@@ -7,8 +7,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.input.KeyEvent;
+import com.pinkara.ye.network.YENetwork;
 import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.network.PacketDistributor;
+
 import org.lwjgl.glfw.GLFW;
 
 public abstract class NonBlockingScreen extends Screen {
@@ -31,21 +33,21 @@ public abstract class NonBlockingScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+    public boolean keyPressed(KeyEvent event) {
+        if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
             this.onClose();
             return true;
         }
-        if (handleMovementKey(keyCode, true)) {
+        if (handleMovementKey(event.key(), true)) {
             return true;
         }
-        if (handleHotbarKey(keyCode)) {
+        if (handleHotbarKey(event.key())) {
             return true;
         }
-        if (handleNumpadTransform(keyCode)) {
+        if (handleNumpadTransform(event.key())) {
             return true;
         }
-        if (keyCode == GLFW.GLFW_KEY_E) {
+        if (event.key() == GLFW.GLFW_KEY_E) {
             // Close this screen and open the inventory immediately so E works while the
             // editor menu is visible.
             Minecraft mc = Minecraft.getInstance();
@@ -55,15 +57,15 @@ public abstract class NonBlockingScreen extends Screen {
             }
             return true;
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
 
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        if (handleMovementKey(keyCode, false)) {
+    public boolean keyReleased(KeyEvent event) {
+        if (handleMovementKey(event.key(), false)) {
             return true;
         }
-        return super.keyReleased(keyCode, scanCode, modifiers);
+        return super.keyReleased(event);
     }
 
     private boolean handleMovementKey(int keyCode, boolean pressed) {
@@ -89,7 +91,7 @@ public abstract class NonBlockingScreen extends Screen {
         if (mc.player == null) return false;
         for (int i = 0; i < 9; ++i) {
             if (keyCode == mc.options.keyHotbarSlots[i].getKey().getValue()) {
-                mc.player.getInventory().selected = i;
+                mc.player.getInventory().setSelectedSlot(i);
                 return true;
             }
         }
@@ -114,7 +116,7 @@ public abstract class NonBlockingScreen extends Screen {
             default -> null;
         };
         if (key != null) {
-            PacketDistributor.sendToServer(new PacketYEKey(key));
+            YENetwork.sendToServer(new PacketYEKey(key));
             return true;
         }
         return false;

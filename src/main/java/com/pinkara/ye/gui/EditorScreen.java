@@ -6,14 +6,13 @@ import com.pinkara.ye.network.PacketSaveStructure;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
+import com.mojang.logging.LogUtils;
+import org.slf4j.Logger;
 
 public class EditorScreen extends NonBlockingScreen {
+    private static final Logger LOGGER = LogUtils.getLogger();
     private final EntityEditor editor;
-
-    private final EditBox[] startFields = new EditBox[3];
-    private final EditBox[] endFields = new EditBox[3];
 
     private static final int PANEL_W = 420;
     private static final int PANEL_H = 170;
@@ -35,38 +34,22 @@ public class EditorScreen extends NonBlockingScreen {
         this.panelY = 24;
 
         int cx = this.width / 2;
-        int top = this.panelY + 8;
-
-        // --- Start / End coordinates ---
-        int startX = cx - 190;
-        int endX = cx + 60;
-        addCoordRow("Start", startX, top, startFields, editor.getPos(EntityEditor.START_POS), 0);
-        addCoordRow("End", endX, top, endFields, editor.getPos(EntityEditor.END_POS), 1);
+        int top = this.panelY + 20;
 
         // --- Main action buttons ---
-        int ay = top + 70;
+        int ay = top;
         int ax = cx - 190;
         addActionButton(ax, ay, "Change", b -> openChangeScreen());
         addActionButton(ax + 96, ay, "Load", b -> openStructureBrowser(StructureBrowserScreen.Mode.LOAD));
         addActionButton(ax + 192, ay, "Save", b -> openStructureBrowser(StructureBrowserScreen.Mode.SAVE));
         ay += 24;
-        addActionButton(ax, ay, "Export", b -> openExportScreen());
+        addActionButton(ax, ay, "Export FBX", b -> openExportScreen());
         addActionButton(ax + 96, ay, "Favorite", b -> saveFavorite());
+        addActionButton(ax + 192, ay, "Library", b -> openLibraryScreen());
 
         // --- Close ---
         addRenderableWidget(Button.builder(Component.literal("Close"), b -> this.onClose())
                 .pos(cx - 30, this.panelY + PANEL_H - 24).size(60, 20).build());
-    }
-
-    private void addCoordRow(String label, int x, int y, EditBox[] fields, int[] pos, int group) {
-        addRenderableWidget(Button.builder(Component.literal(label), b -> {}).pos(x, y).size(36, 16).build());
-        for (int i = 0; i < 3; ++i) {
-            fields[i] = new EditBox(this.font, x + 38, y + 14 + i * 20, 44, 16, Component.literal(label + i));
-            fields[i].setValue(String.valueOf(pos[i]));
-            fields[i].setFilter(s -> s.matches("-?\\d*"));
-            addRenderableWidget(fields[i]);
-            addNudgeButtons(x + 84, y + 14 + i * 20, group, i);
-        }
     }
 
     @Override
@@ -78,7 +61,7 @@ public class EditorScreen extends NonBlockingScreen {
         guiGraphics.vLine(panelX + PANEL_W - 1, panelY, panelY + PANEL_H - 1, 0xFF555555);
 
         super.render(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, panelY + 4, 0xFFFFFF);
+        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, panelY + 4, 0xFFFFFFFF);
 
         int[] s = editor.getPos(EntityEditor.START_POS);
         int[] e = editor.getPos(EntityEditor.END_POS);
@@ -86,28 +69,7 @@ public class EditorScreen extends NonBlockingScreen {
         int sizeY = Math.abs(s[1] - e[1]) + 1;
         int sizeZ = Math.abs(s[2] - e[2]) + 1;
         String info = String.format("Size: %d x %d x %d", sizeX, sizeY, sizeZ);
-        guiGraphics.drawCenteredString(this.font, info, this.width / 2, panelY + PANEL_H - 38, 0x00FF00);
-    }
-
-    private void addNudgeButtons(int x, int y, int group, int index) {
-        addRenderableWidget(Button.builder(Component.literal("<"), b -> nudge(group, index, -1))
-                .pos(x, y).size(14, 16).build());
-        addRenderableWidget(Button.builder(Component.literal(">"), b -> nudge(group, index, 1))
-                .pos(x + 58, y).size(14, 16).build());
-    }
-
-    private void nudge(int group, int index, int delta) {
-        EditBox box = switch (group) {
-            case 0 -> startFields[index];
-            case 1 -> endFields[index];
-            default -> null;
-        };
-        if (box == null) return;
-        try {
-            int val = Integer.parseInt(box.getValue().isEmpty() ? "0" : box.getValue());
-            box.setValue(String.valueOf(val + delta));
-        } catch (NumberFormatException ignored) {
-        }
+        guiGraphics.drawCenteredString(this.font, info, this.width / 2, panelY + PANEL_H - 38, 0xFF00FF00);
     }
 
     private void addActionButton(int x, int y, String text, Button.OnPress onPress) {
@@ -120,14 +82,22 @@ public class EditorScreen extends NonBlockingScreen {
     }
 
     private void openStructureBrowser(StructureBrowserScreen.Mode mode) {
+        LOGGER.info("EditorScreen: opening StructureBrowserScreen mode=" + mode);
         Minecraft.getInstance().setScreen(new StructureBrowserScreen(this, mode));
     }
 
     private void openExportScreen() {
-        Minecraft.getInstance().setScreen(new ExportScreen());
+        LOGGER.info("EditorScreen: opening StructureExportScreen");
+        Minecraft.getInstance().setScreen(new StructureExportScreen(this));
+    }
+
+    private void openLibraryScreen() {
+        LOGGER.info("EditorScreen: opening LibraryScreen");
+        Minecraft.getInstance().setScreen(new LibraryScreen(this));
     }
 
     private void saveFavorite() {
+        LOGGER.info("EditorScreen: saveFavorite clicked");
         String name = "favorite_" + java.time.LocalDateTime.now().toString().replaceAll("[^a-zA-Z0-9]", "_");
         YENetwork.sendToServer(new PacketSaveStructure(name));
     }

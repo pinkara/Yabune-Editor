@@ -6,6 +6,7 @@ import com.pinkara.ye.editor.Editor;
 import com.pinkara.ye.editor.EditorManager;
 import com.pinkara.youma.block.BlockSet;
 import com.pinkara.youma.block.BlockUtil;
+import com.pinkara.youma.io.NGTLog;
 import com.pinkara.youma.math.AABBInt;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -53,10 +54,16 @@ public record PacketChangeBlocks(List<ChangeEntry> entries) implements CustomPac
         ctx.enqueueWork(() -> {
             Player player = ctx.player();
             Editor editor = EditorManager.INSTANCE.getEditor(player);
-            if (editor == null) return;
+            if (editor == null) {
+                NGTLog.sendChatMessage(((net.minecraft.server.level.ServerPlayer) player).createCommandSourceStack(), "No active editor.");
+                return;
+            }
 
             AABBInt box = editor.getSelectBox();
-            if (box == null) return;
+            if (box == null) {
+                NGTLog.sendChatMessage(((net.minecraft.server.level.ServerPlayer) player).createCommandSourceStack(), "No selection.");
+                return;
+            }
 
             editor.record(box);
             box.repeat((x, y, z, count) -> {
@@ -70,6 +77,7 @@ public record PacketChangeBlocks(List<ChangeEntry> entries) implements CustomPac
                 }
             });
             editor.updateBlocks(box);
+            NGTLog.sendChatMessage(((net.minecraft.server.level.ServerPlayer) player).createCommandSourceStack(), "Changed blocks.");
         });
     }
 }

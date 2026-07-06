@@ -26,7 +26,7 @@ public record PacketRenderBlocks(CompoundTag data) implements CustomPacketPayloa
 
     public static void handle(PacketRenderBlocks message, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
-            if (ctx.player().level().isClientSide) {
+            if (ctx.player().level().isClientSide()) {
                 com.pinkara.ye.editor.EntityEditor editor = findEditor(ctx.player());
                 if (editor != null) {
                     editor.blocksForRenderer = NGTObject.readFromNBT(message.data());
@@ -40,7 +40,7 @@ public record PacketRenderBlocks(CompoundTag data) implements CustomPacketPayloa
         if (!(player.level() instanceof net.minecraft.client.multiplayer.ClientLevel clientLevel)) {
             return null;
         }
-        String name = player.getGameProfile().getName();
+        String name = player.getGameProfile().name();
         for (net.minecraft.world.entity.Entity entity : clientLevel.entitiesForRendering()) {
             if (entity instanceof com.pinkara.ye.editor.EntityEditor editor) {
                 if (name.equals(editor.getEntityData().get(com.pinkara.ye.editor.EntityEditor.PLAMCTER))) {

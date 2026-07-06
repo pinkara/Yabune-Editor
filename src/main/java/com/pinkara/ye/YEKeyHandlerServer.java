@@ -46,14 +46,14 @@ public class YEKeyHandlerServer {
                     default -> "";
                 };
                 if (!key.isEmpty()) {
-                    NGTLog.sendChatMessage(player.createCommandSourceStack(), key);
+                    NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), key);
                 }
             }
         } else if (keyCode == YEKeyHandlerClient.KEY_Undo) {
             Editor editor = EditorManager.INSTANCE.getEditor(player);
             if (editor != null) {
                 editor.undo();
-                NGTLog.sendChatMessage(player.createCommandSourceStack(), "message.ye.undo");
+                NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "message.ye.undo");
             }
         } else if (keyCode == YEKeyHandlerClient.KEY_Clear) {
             Editor editor = EditorManager.INSTANCE.getEditor(player);
@@ -66,7 +66,7 @@ public class YEKeyHandlerServer {
                 EditFilterDelete filter = new EditFilterDelete();
                 filter.init(new Config());
                 if (filter.edit(editor)) {
-                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "message.ye.deleted");
+                    NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "message.ye.deleted");
                 }
             }
         } else if (keyCode == YEKeyHandlerClient.KEY_Cut) {
@@ -75,7 +75,7 @@ public class YEKeyHandlerServer {
                 EditFilterCut filter = new EditFilterCut();
                 filter.init(new Config());
                 if (filter.edit(editor)) {
-                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "message.ye.cut");
+                    NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "message.ye.cut");
                 }
             }
         } else if (keyCode == YEKeyHandlerClient.KEY_Copy) {
@@ -85,7 +85,7 @@ public class YEKeyHandlerServer {
                 filter.init(new Config());
                 filter.edit(editor);
                 editor.getEntity().setEditMode((byte) 2);
-                NGTLog.sendChatMessage(player.createCommandSourceStack(), "message.ye.copied");
+                NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "message.ye.copied");
             }
         } else if (keyCode == YEKeyHandlerClient.KEY_Paste) {
             Editor editor = EditorManager.INSTANCE.getEditor(player);
@@ -93,7 +93,7 @@ public class YEKeyHandlerServer {
                 byte mode = editor.getEntity().getEditMode();
                 if (mode == 3) {
                     editor.editBlocks(Editor.EditType_Clone, 0.0f);
-                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "message.ye.cloned");
+                    NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "message.ye.cloned");
                 } else {
                     if (mode != 2) {
                         editor.getEntity().setEditMode((byte) 2);
@@ -101,7 +101,7 @@ public class YEKeyHandlerServer {
                     EditFilterPaste filter = new EditFilterPaste();
                     filter.init(new Config());
                     if (filter.edit(editor)) {
-                        NGTLog.sendChatMessage(player.createCommandSourceStack(), "message.ye.pasted");
+                        NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "message.ye.pasted");
                     }
                 }
             }
@@ -111,7 +111,7 @@ public class YEKeyHandlerServer {
                 EditFilterFill filter = new EditFilterFill();
                 filter.init(new Config());
                 if (filter.edit(editor)) {
-                    NGTLog.sendChatMessage(player.createCommandSourceStack(), "message.ye.filled");
+                    NGTLog.sendChatMessage(((ServerPlayer) player).createCommandSourceStack(), "message.ye.filled");
                 }
             }
         } else if (isCloneAdjustKey(keyCode)) {

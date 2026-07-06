@@ -20,6 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.util.ProblemReporter;
 
 import java.util.Arrays;
 
@@ -43,12 +45,12 @@ public class Editor {
     }
 
     public static EntityEditor getNewEditor(Level world, Player player, int x, int y, int z) {
-        if (world.isClientSide) {
+        if (world.isClientSide()) {
             return null;
         }
         EntityEditor entity = new EntityEditor(world, player, x, y, z);
         Editor editor = new Editor(entity);
-        EditorManager.INSTANCE.add(player.getGameProfile().getName(), editor);
+        EditorManager.INSTANCE.add(player.getGameProfile().name(), editor);
         return entity;
     }
 
@@ -95,6 +97,10 @@ public class Editor {
             return null;
         }
         BlockHitResult blockHit = (BlockHitResult) target;
+        if (this.clipboard == null) {
+            NGTLog.debug("[Yabune Editor](Edit) Clipboard is empty");
+            return null;
+        }
         int[] box = this.getEntity().getPos(EntityEditor.PASTE_BOX);
         if (this.clipboard.getSize() != box[0] * box[1] * box[2]) {
             this.getEntity().updateBlockList(null);
@@ -117,7 +123,7 @@ public class Editor {
             NGTLog.debug("[Yabune Editor](Edit) Not select end");
             return false;
         }
-        if (world.isClientSide) {
+        if (world.isClientSide()) {
             NGTLog.debug("[Yabune Editor](Edit) Can't edit in Client");
             return false;
         }
@@ -247,7 +253,7 @@ public class Editor {
             nbt0.putInt("x", x);
             nbt0.putInt("y", y);
             nbt0.putInt("z", z);
-            tile.loadWithComponents(nbt0, this.getWorld().registryAccess());
+            tile.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING, this.getWorld().registryAccess(), nbt0));
         }
     }
 

@@ -6,13 +6,15 @@ import com.pinkara.youma.block.BlockUtil;
 import com.pinkara.youma.block.NGTObject;
 import com.pinkara.youma.item.ItemUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -64,17 +66,22 @@ public class EntityEditor extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag nbt) {
+    protected void readAdditionalSaveData(ValueInput input) {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag nbt) {
+    protected void addAdditionalSaveData(ValueOutput output) {
+    }
+
+    @Override
+    public boolean hurtServer(net.minecraft.server.level.ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         super.onSyncedDataUpdated(key);
-        if (key == START_POS && this.level().isClientSide) {
+        if (key == START_POS && this.level().isClientSide()) {
             // A new starting point invalidates the client-side copied preview.
             this.blocksForRenderer = null;
         }
@@ -86,7 +93,7 @@ public class EntityEditor extends Entity {
         if (this.getPlayer() != null) {
             this.setPos(this.getPlayer().getX(), this.getPlayer().getY(), this.getPlayer().getZ());
         }
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (this.getPlayer() == null || !this.getPlayer().isAlive()) {
                 this.discard();
             }
@@ -95,15 +102,12 @@ public class EntityEditor extends Entity {
 
     @Override
     public void remove(RemovalReason reason) {
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             EditorManager.INSTANCE.remove(this);
         }
         super.remove(reason);
     }
 
-    @Override
-    public void lerpTo(double par1, double par3, double par5, float par7, float par8, int par9) {
-    }
 
     public HitResult getTarget(boolean selectSide) {
         Player player = this.getPlayer();
@@ -121,7 +125,7 @@ public class EntityEditor extends Entity {
             if (!name.isEmpty()) {
                 if (this.level() instanceof ServerLevel server) {
                     this.player = server.getServer().getPlayerList().getPlayerByName(name);
-                } else if (this.level().isClientSide) {
+                } else if (this.level().isClientSide()) {
                     this.player = net.minecraft.client.Minecraft.getInstance().player;
                 }
             }
@@ -131,7 +135,7 @@ public class EntityEditor extends Entity {
 
     public void setPlayer(Player par1) {
         this.player = par1;
-        this.entityData.set(PLAMCTER, par1.getGameProfile().getName());
+        this.entityData.set(PLAMCTER, par1.getGameProfile().name());
     }
 
     public int[] getPos(EntityDataAccessor<BlockPos> type) {
@@ -198,7 +202,7 @@ public class EntityEditor extends Entity {
     }
 
     public void updateBlockList(NGTObject ngto) {
-        if (!this.level().isClientSide && this.getPlayer() instanceof ServerPlayer serverPlayer) {
+        if (!this.level().isClientSide() && this.getPlayer() instanceof ServerPlayer serverPlayer) {
             PacketDistributor.sendToPlayer(serverPlayer, new PacketRenderBlocks(ngto));
         }
     }
@@ -211,9 +215,6 @@ public class EntityEditor extends Entity {
         return this.shouldUpdate;
     }
 
-    @Override
-    protected void checkInsideBlocks() {
-    }
 
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
